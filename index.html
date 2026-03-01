@@ -1,21 +1,11 @@
-<div class="topbar">
-  <img src="kau.png" style="height:60px">
-  <h2>Wire Rope Design (Web Application)</h2>
-<small>Mechanical Design Course – KAU</small>
-</div>
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Wire Rope Design App</title>
 
   <style>
-    .topbar{
-  display:flex;
-  align-items:center;
-  gap:15px;
-  margin-bottom:10px;}
-    <img src="IMG_0259.jpeg" width="70">
     :root{
       --bg:#ffffff; --text:#111; --muted:#666; --card:#ffffff; --line:#ddd;
       --btn:#111; --btnText:#fff; --ok:#167a2a; --bad:#a61b1b;
@@ -24,60 +14,139 @@
       --bg:#0f1115; --text:#e9eef6; --muted:#aab3c2; --card:#141823; --line:#2a3243;
       --btn:#e9eef6; --btnText:#0f1115; --ok:#4bd17a; --bad:#ff6b6b;
     }
-    body{font-family:Arial,system-ui;margin:20px;max-width:980px;background:var(--bg);color:var(--text)}
-    h2{margin:0 0 8px}
-    .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+
+    body{
+      font-family:Arial,system-ui;
+      margin:20px;
+      max-width:980px;
+      background:var(--bg);
+      color:var(--text)
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-width:260px;
+    }
+
+    .brand img{
+      height:60px;
+      width:auto;
+      display:block;
+    }
+
+    h2{margin:0}
+    h3{margin:0 0 10px}
+
     .small{color:var(--muted);font-size:13px;line-height:1.5}
     .card{border:1px solid var(--line);border-radius:12px;padding:16px;margin:12px 0;background:var(--card)}
     .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+
     label{font-weight:700;display:block;margin-bottom:6px}
-    input,select{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font-size:16px;background:transparent;color:var(--text)}
-    button{padding:12px 16px;border:0;border-radius:10px;background:var(--btn);color:var(--btnText);font-size:16px;cursor:pointer}
+    input,select{
+      width:100%;
+      padding:10px;
+      border:1px solid var(--line);
+      border-radius:10px;
+      font-size:16px;
+      background:transparent;
+      color:var(--text)
+    }
+
+    button{
+      padding:12px 16px;
+      border:0;
+      border-radius:10px;
+      background:var(--btn);
+      color:var(--btnText);
+      font-size:16px;
+      cursor:pointer
+    }
+
     .btnRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
     .pill{display:inline-block;padding:4px 10px;border-radius:999px;font-weight:800;border:1px solid var(--line)}
     .ok{color:var(--ok);border-color:color-mix(in srgb, var(--ok) 35%, var(--line))}
     .bad{color:var(--bad);border-color:color-mix(in srgb, var(--bad) 35%, var(--line))}
     .out{line-height:1.9;font-size:16px}
+
     table{width:100%;border-collapse:collapse;font-size:14px}
     th,td{border-bottom:1px solid var(--line);padding:8px;text-align:left}
-    canvas{width:100%;max-width:100%;border:1px solid var(--line);border-radius:10px;background:transparent}
+
     .two{display:grid;grid-template-columns:1.2fr 1fr;gap:12px}
     @media (max-width: 860px){ .two{grid-template-columns:1fr} }
+
+    .footer{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:12px;
+      border-top:1px solid var(--line);
+      padding-top:12px;
+    }
+
+    .steps ol{margin:8px 0 0 18px}
+    .steps code{background:color-mix(in srgb, var(--line) 30%, transparent); padding:2px 6px; border-radius:6px}
   </style>
 </head>
-  <div class="card">
-<b>Prepared by:</b> Abdulrahman Alsubhi 2247300 <br>
-<b>Under Supervision:</b> Prof.Dr. Ahmad Abouel Kasem
-</div>
 
 <body>
+
+  <!-- ===== Top Bar ===== -->
   <div class="topbar">
-    <div>
-      <h2>Wire Rope Design (Web Application)</h2>
-      <div class="small">
-        Same “notes style” equations:<br>
-        W(kgf)=100×W(kN), Wd=W×n×k, Fu=Cu×d², Wr=Cw×d²×L, dw=Cdw×d, D=Cd×d, Ar=Car×d²,<br>
-        σb=Er(dw/D), Fb=σb×Ar, a=(v1/60)/t, Facc=(Fa/g)×a, Feq=Fa+Fb+Facc, Kw=Fu/Feq
+    <div class="brand">
+      <!-- IMPORTANT: your repo file looks like "kau.png.png" -->
+      <img src="kau.png.png" alt="KAU Logo">
+      <div>
+        <h2>Wire Rope Design (Web Application)</h2>
+        <div class="small">Mechanical Design Course – KAU</div>
       </div>
     </div>
-    <button id="themeBtn" onclick="toggleTheme()">Dark Mode</button>
+
+    <button id="themeBtn" type="button" onclick="toggleTheme()">Dark Mode</button>
   </div>
 
+  <!-- ===== Prepared / Supervision ===== -->
+  <div class="card">
+    <b>Prepared by:</b> Abdulrahman Alsubhi 2247300 <br>
+    <b>Under Supervision:</b> Prof. Dr. Ahmad Abouel Kasem
+  </div>
+
+  <!-- ===== Equations Summary ===== -->
+  <div class="card">
+    <h3>Equations (Notes Style)</h3>
+    <div class="small">
+      W(kgf)=100×W(kN), Wd=W×n×k, Fu=Cu×d², Wr=Cw×d²×L, dw=Cdw×d, D=Cd×d, Ar=Car×d²,<br>
+      σb=Er(dw/D), Fb=σb×Ar, a=(v1/60)/t, Facc=(Fa/g)×a, Feq=Fa+Fb+Facc, Kw=Fu/Feq
+    </div>
+  </div>
+
+  <!-- ===== Inputs ===== -->
   <div class="card two">
     <div>
       <h3>Inputs</h3>
+
       <div class="grid">
         <div>
           <label>Rope type</label>
-          <select id="ropeType" onchange="applyRopeDefaults()">
+          <select id="ropeType" onchange="calc()">
             <option value="6x19" selected>6 × 19 (Mine Hoist)</option>
             <option value="6x7">6 × 7 (Mine Hoist)</option>
           </select>
           <div class="small">This selection updates the “table constants” used in calculations.</div>
         </div>
+
         <div>
           <label>Use g</label>
-          <select id="gMode" onchange="syncG()">
+          <select id="gMode" onchange="calc()">
             <option value="10" selected>g = 10 (Doctor approximation)</option>
             <option value="9.81">g = 9.81 (Exact)</option>
           </select>
@@ -87,6 +156,7 @@
           <label>Load W (kN)</label>
           <input id="WkN" type="number" value="55" step="0.1">
         </div>
+
         <div>
           <label>Rope length L (m)</label>
           <input id="L" type="number" value="300" step="1">
@@ -96,6 +166,7 @@
           <label>Final speed v1 (m/min)</label>
           <input id="v1" type="number" value="500" step="1">
         </div>
+
         <div>
           <label>Time to reach speed t (s)</label>
           <input id="t" type="number" value="10" step="0.1">
@@ -105,6 +176,7 @@
           <label>n</label>
           <input id="n" type="number" value="3" step="1">
         </div>
+
         <div>
           <label>k</label>
           <input id="k" type="number" value="5" step="0.1">
@@ -114,6 +186,7 @@
           <label>Adopted diameter d (cm)</label>
           <input id="dAdopt" type="number" value="4.1" step="0.01">
         </div>
+
         <div>
           <label>Er (kg/cm²)</label>
           <input id="Er" type="number" value="800000" step="1000">
@@ -122,14 +195,24 @@
       </div>
 
       <div class="btnRow">
-        <button onclick="calc()">Calculate</button>
-        <button onclick="generateReport()">Generate Report (PDF)</button>
+        <button type="button" onclick="calc()">Calculate</button>
+        <button type="button" onclick="generateReport()">Generate Report (PDF)</button>
       </div>
-      <div class="small">PDF is created using your browser print (Save as PDF).</div>
 
+      <div class="small">PDF is created using your browser print (Save as PDF).</div>
+    </div>
+
+    <div>
+      <h3>Result Status</h3>
+      <div id="statusBox" class="out">Press Calculate…</div>
+    </div>
+  </div>
+
+  <!-- ===== Constants Table ===== -->
   <div class="card">
     <h3>Wire Rope Data (Used Constants)</h3>
     <div class="small">These are the “table constants” used by the app based on rope type selection.</div>
+
     <div style="overflow:auto;margin-top:10px">
       <table>
         <thead>
@@ -167,15 +250,38 @@
     </div>
   </div>
 
+  <!-- ===== Calculation Steps (important for presentation) ===== -->
+  <div class="card steps">
+    <h3>Calculation Steps (Important)</h3>
+    <div class="small">This section explains the logic clearly (good for explaining to the doctor and class).</div>
+
+    <ol>
+      <li><b>Convert load to kgf (notes style):</b> <code>W = 100 × W(kN)</code></li>
+      <li><b>Design load:</b> <code>Wd = W × n × k</code></li>
+      <li><b>Required diameter from strength:</b> <code>d_calc = √(Wd / Cu)</code></li>
+      <li><b>Rope weight:</b> <code>Wr = Cw × d² × L</code></li>
+      <li><b>Axial load:</b> <code>Fa = W + Wr</code></li>
+      <li><b>Acceleration:</b> <code>a = (v1/60) / t</code></li>
+      <li><b>Bending stress + bending load:</b>
+        <code>dw=Cdw×d</code>, <code>D=Cd×d</code>, <code>Ar=Car×d²</code>,
+        <code>σb=Er(dw/D)</code>, <code>Fb=σb×Ar</code>
+      </li>
+      <li><b>Acceleration force:</b> <code>Facc = (Fa/g) × a</code></li>
+      <li><b>Equivalent load:</b> <code>Feq = Fa + Fb + Facc</code></li>
+      <li><b>Ultimate load:</b> <code>Fu = Cu × d²</code></li>
+      <li><b>Safety factor:</b> <code>Kw = Fu / Feq</code></li>
+      <li><b>Decision:</b> If <code>d_adopted ≥ d_calc</code> → <b>SAFE</b>, else <b>NOT SAFE</b>.</li>
+    </ol>
+  </div>
+
+  <!-- ===== Results ===== -->
   <div class="card">
     <h3>Results</h3>
     <div id="out" class="out">Press Calculate…</div>
   </div>
 
-  <div class="card">
-    <h3>Plot (Kw vs d)</h3>
-    <div class="small">We plot Kw for a range of diameters around the adopted diameter.</div>
-    <canvas id="plot" width="900" height="320"></canvas>
+  <div class="footer">
+    © 2026 King Abdulaziz University – Mechanical Engineering Department
   </div>
 
 <script>
@@ -184,28 +290,16 @@
     document.body.classList.toggle("dark");
     document.getElementById("themeBtn").textContent =
       document.body.classList.contains("dark") ? "Light Mode" : "Dark Mode";
-    drawPlot(); // redraw plot with new colors
   }
 
-  function syncG(){
-    // no extra input field; g comes from dropdown
-  }
-
-  // ===== Rope data constants (you can adjust) =====
+  // ===== Rope data constants =====
   function ropeConstants(type){
     if(type === "6x7"){
       return { Cu:5950, Cw:0.0336, Cdw:0.060, Cd:60, Car:0.36 };
     }
-    // default 6x19
-    return { Cu:5100, Cw:0.37, Cdw:0.063, Cd:30, Car:0.38 };
+    return { Cu:5100, Cw:0.37, Cdw:0.063, Cd:30, Car:0.38 }; // default 6x19
   }
 
-  function applyRopeDefaults(){
-    // Optional: you can auto-change adopted diameter suggestion, leave as user input
-    calc();
-  }
-
-  // ===== Helpers =====
   function f(x, d=4){ return (Number.isFinite(x)? x.toFixed(d) : "—"); }
 
   function getInputs(){
@@ -223,23 +317,23 @@
     };
   }
 
-  // ===== Core calculation (same structure as your notes) =====
+  // ===== Core calculation =====
   function compute(vals){
     const {ropeType, g, Er, WkN, L, v1, t, n, k, d} = vals;
     const C = ropeConstants(ropeType);
 
-    const W = 100 * WkN;        // kgf approximation (notes style)
-    const Wd = W * n * k;       // design load
+    const W = 100 * WkN;                 // kgf approximation (notes style)
+    const Wd = W * n * k;                // design load
     const d_calc = Math.sqrt(Wd / C.Cu); // required diameter from Fu = Cu d^2
 
-    const Wr = C.Cw * d*d * L;  // rope weight
-    const Fa = W + Wr;          // axial load
+    const Wr = C.Cw * d*d * L;           // rope weight
+    const Fa = W + Wr;                   // axial load
 
-    const a = (v1/60) / t;      // acceleration (m/s^2), v1 m/min -> m/s then /t
+    const a = (v1/60) / t;               // acceleration (m/s^2)
 
-    const dw = C.Cdw * d;       // wire diameter
-    const D  = C.Cd  * d;       // sheave diameter
-    const Ar = C.Car * d*d;     // area
+    const dw = C.Cdw * d;
+    const D  = C.Cd  * d;
+    const Ar = C.Car * d*d;
 
     const sigma_b = Er * (dw/D);
     const Fb = sigma_b * Ar;
@@ -248,24 +342,28 @@
 
     const Feq = Fa + Fb + Facc;
     const Fu  = C.Cu * d*d;
-
     const Kw  = Fu / Feq;
 
     return {C,W,Wd,d_calc,Wr,Fa,a,dw,D,Ar,sigma_b,Fb,Facc,Feq,Fu,Kw};
   }
 
-  // ===== UI output =====
   function calc(){
     const vals = getInputs();
     const R = compute(vals);
 
-    const safe = (vals.d > R.d_calc);
-    const msg = safe
+    const safe = (vals.d >= R.d_calc);
+    const pill = safe
       ? `<span class="pill ok">SAFE</span>`
       : `<span class="pill bad">NOT SAFE</span>`;
 
+    document.getElementById("statusBox").innerHTML = `
+      ${pill}<br><br>
+      <b>d_calc</b> = ${f(R.d_calc,4)} cm (${f(R.d_calc*10,2)} mm)<br>
+      <b>d_adopted</b> = ${f(vals.d,4)} cm (${f(vals.d*10,2)} mm)
+    `;
+
     document.getElementById("out").innerHTML = `
-      ${msg}<br><br>
+      ${pill}<br><br>
 
       <b>Selected rope type:</b> ${vals.ropeType}<br>
       <b>Constants:</b> Cu=${R.C.Cu}, Cw=${R.C.Cw}, Cdw=${R.C.Cdw}, Cd=${R.C.Cd}, Car=${R.C.Car}<br><br>
@@ -284,101 +382,13 @@
       <b>Fu</b> = ${f(R.Fu,1)} kg<br>
       <b>Kw</b> = ${f(R.Kw,4)}
     `;
-
-    drawPlot();
-  }
-
-  // ===== Plot (Kw vs d) =====
-  function drawPlot(){
-    const canvas = document.getElementById("plot");
-    const ctx = canvas.getContext("2d");
-
-    // Clear
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    const vals = getInputs();
-    if(!Number.isFinite(vals.d) || vals.d<=0) return;
-
-    // Diameter range around adopted
-    const dMin = Math.max(0.5, vals.d*0.7);
-    const dMax = vals.d*1.3;
-
-    // Sample points
-    const N = 60;
-    const pts = [];
-    for(let i=0;i<=N;i++){
-      const di = dMin + (dMax-dMin)*(i/N);
-      const Ri = compute({...vals, d: di});
-      pts.push({d:di, Kw:Ri.Kw});
-    }
-
-    // Find y-range
-    let yMin = Infinity, yMax = -Infinity;
-    pts.forEach(p=>{
-      if(Number.isFinite(p.Kw)){ yMin=Math.min(yMin,p.Kw); yMax=Math.max(yMax,p.Kw); }
-    });
-    if(!isFinite(yMin) || !isFinite(yMax) || yMin===yMax){ yMin=0; yMax=10; }
-
-    // Padding
-    const padL=60, padR=20, padT=20, padB=50;
-    const W = canvas.width - padL - padR;
-    const H = canvas.height - padT - padB;
-
-    // Colors
-    const textColor = getComputedStyle(document.body).getPropertyValue("--text").trim() || "#111";
-    const lineColor = getComputedStyle(document.body).getPropertyValue("--line").trim() || "#ddd";
-    const muted = getComputedStyle(document.body).getPropertyValue("--muted").trim() || "#666";
-
-    // Axes
-    ctx.strokeStyle = lineColor;
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(padL, padT);
-    ctx.lineTo(padL, padT+H);
-    ctx.lineTo(padL+W, padT+H);
-    ctx.stroke();
-
-    // Labels
-    ctx.fillStyle = muted;
-    ctx.font = "14px Arial";
-    ctx.fillText("Kw", 18, padT+12);
-    ctx.fillText("d (cm)", padL+W-50, padT+H+38);
-
-    // Map function
-    const xMap = d => padL + ( (d - dMin) / (dMax - dMin) ) * W;
-    const yMap = y => padT + H - ( (y - yMin) / (yMax - yMin) ) * H;
-
-    // Plot line
-    ctx.strokeStyle = textColor;
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    pts.forEach((p,idx)=>{
-      const x=xMap(p.d), y=yMap(p.Kw);
-      if(idx===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-    });
-    ctx.stroke();
-
-    // Mark adopted d
-    const R = compute(vals);
-    const xA = xMap(vals.d), yA = yMap(R.Kw);
-    ctx.fillStyle = textColor;
-    ctx.beginPath(); ctx.arc(xA,yA,4,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle = muted;
-    ctx.fillText("adopted", xA+8, yA-8);
-
-    // Tick values
-    ctx.fillStyle = muted;
-    ctx.fillText(dMin.toFixed(2), padL, padT+H+20);
-    ctx.fillText(dMax.toFixed(2), padL+W-40, padT+H+20);
-    ctx.fillText(yMin.toFixed(2), 8, padT+H);
-    ctx.fillText(yMax.toFixed(2), 8, padT+12);
   }
 
   // ===== Report (Print to PDF) =====
   function generateReport(){
     const vals = getInputs();
     const R = compute(vals);
-    const safe = (vals.d > R.d_calc);
+    const safe = (vals.d >= R.d_calc);
 
     const html = `
       <html>
@@ -431,7 +441,8 @@
         </table>
 
         <p class="muted" style="margin-top:14px">
-          Equations: W=100×W(kN), Wd=W×n×k, Fu=Cu d², Wr=Cw d² L, σb=Er(dw/D), Fb=σb Ar, Facc=(Fa/g)a, Feq=Fa+Fb+Facc, Kw=Fu/Feq.
+          Equations: W=100×W(kN), Wd=W×n×k, Fu=Cu d², Wr=Cw d² L, σb=Er(dw/D), Fb=σb Ar,
+          Facc=(Fa/g)a, Feq=Fa+Fb+Facc, Kw=Fu/Feq.
         </p>
       </body>
       </html>
@@ -441,15 +452,13 @@
     w.document.open();
     w.document.write(html);
     w.document.close();
-    // User chooses "Save as PDF" from print dialog
     w.focus();
     w.print();
   }
 
-  // Initial render
+  // initial
   calc();
 </script>
 
 </body>
 </html>
-© 2026 King Abdulaziz University – Mechanical Engineering Department
