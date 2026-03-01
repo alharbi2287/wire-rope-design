@@ -1,0 +1,147 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Wire Rope Design Tool</title>
+  <style>
+    body{font-family:Arial,system-ui;margin:24px;max-width:900px}
+    .card{border:1px solid #ddd;border-radius:12px;padding:16px;margin:12px 0}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    label{font-weight:700;display:block;margin-bottom:6px}
+    input{width:100%;padding:10px;border:1px solid #ccc;border-radius:10px;font-size:16px}
+    button{padding:12px 16px;border:0;border-radius:10px;background:#111;color:#fff;font-size:16px;cursor:pointer}
+    .ok{color:#167a2a;font-weight:800}
+    .bad{color:#a61b1b;font-weight:800}
+    .out{line-height:1.9;font-size:16px}
+    .small{color:#666;font-size:13px}
+  </style>
+</head>
+<body>
+
+<h2>Wire Rope Design (Simple Web App)</h2>
+<div class="small">
+  Equations used (same style as your notes):<br>
+  W (kgf)=100×W(kN), Wd=W×n×k, Fu=5100 d², Wr=0.37 d² L, dw=0.063 d, D=30 d, Ar=0.38 d²,<br>
+  σb=Er(dw/D), Fb=σb Ar, a=(v1/60)/t, Facc=(Fa/g)a, Feq=Fa+Fb+Facc, Kw=Fu/Feq
+</div>
+
+<div class="card">
+  <h3>Inputs</h3>
+  <div class="grid">
+    <div>
+      <label>Load W (kN)</label>
+      <input id="WkN" type="number" value="55" step="0.1">
+    </div>
+    <div>
+      <label>Rope length L (m)</label>
+      <input id="L" type="number" value="300" step="1">
+    </div>
+    <div>
+      <label>Final speed v1 (m/min)</label>
+      <input id="v1" type="number" value="500" step="1">
+    </div>
+    <div>
+      <label>Time to reach speed t (s)</label>
+      <input id="t" type="number" value="10" step="0.1">
+    </div>
+    <div>
+      <label>n</label>
+      <input id="n" type="number" value="3" step="1">
+    </div>
+    <div>
+      <label>k</label>
+      <input id="k" type="number" value="5" step="0.1">
+    </div>
+    <div>
+      <label>Adopted diameter d (cm)</label>
+      <input id="dAdopt" type="number" value="4.1" step="0.01">
+    </div>
+    <div>
+      <label>g (use 10 if doctor uses approximation)</label>
+      <input id="g" type="number" value="10" step="0.01">
+    </div>
+  </div>
+
+  <div style="margin-top:14px">
+    <button onclick="calc()">Calculate</button>
+  </div>
+</div>
+
+<div class="card">
+  <h3>Results</h3>
+  <div id="out" class="out">Press Calculate…</div>
+</div>
+
+<script>
+function f(x, d=4){ return (Number.isFinite(x)? x.toFixed(d) : "—"); }
+
+function calc(){
+  // Read inputs
+  const WkN   = Number(document.getElementById("WkN").value);
+  const L     = Number(document.getElementById("L").value);
+  const v1    = Number(document.getElementById("v1").value);
+  const t     = Number(document.getElementById("t").value);
+  const n     = Number(document.getElementById("n").value);
+  const k     = Number(document.getElementById("k").value);
+  const d     = Number(document.getElementById("dAdopt").value);  // adopted diameter (cm)
+  const g     = Number(document.getElementById("g").value);
+
+  // Constants (as in notes)
+  const Er = 0.8e6; // kg/cm^2
+
+  // Convert W from kN to kgf (approx. used in notes)
+  const W = 100 * WkN;         // kgf
+
+  // Design load
+  const Wd = W * n * k;        // kgf
+
+  // Required diameter from Fu = 5100 d^2
+  const d_calc = Math.sqrt(Wd / 5100); // cm
+
+  // Rope weight and axial load
+  const Wr = 0.37 * d*d * L;   // kg
+  const Fa = W + Wr;           // kg
+
+  // Acceleration (m/min -> m/s then /t)
+  const a = (v1/60) / t;       // m/s^2
+
+  // Bending load
+  const dw = 0.063 * d;        // cm
+  const D  = 30 * d;           // cm
+  const Ar = 0.38 * d*d;       // cm^2
+  const sigma_b = Er * (dw/D); // kg/cm^2
+  const Fb = sigma_b * Ar;     // kg
+
+  // Acceleration load
+  const Facc = (Fa/g) * a;     // kg
+
+  // Equivalent load and safety factor
+  const Feq = Fa + Fb + Facc;  // kg
+  const Fu  = 5100 * d*d;      // kg
+  const Kw  = Fu / Feq;
+
+  // Safety message
+  const safe = (d > d_calc);
+  const msg = safe ? `<span class="ok">SAFE</span>` : `<span class="bad">NOT SAFE</span>`;
+
+  document.getElementById("out").innerHTML = `
+    ${msg}<br><br>
+    <b>d_calc</b> = ${f(d_calc,4)} cm (${f(d_calc*10,2)} mm)<br>
+    <b>d_adopted</b> = ${f(d,4)} cm (${f(d*10,2)} mm)<br><br>
+
+    <b>Wd</b> = ${f(Wd,1)} kg<br>
+    <b>Wr</b> = ${f(Wr,1)} kg<br>
+    <b>Fa</b> = ${f(Fa,1)} kg<br>
+    <b>a</b> = ${f(a,4)} m/s²<br>
+    <b>Fb</b> = ${f(Fb,1)} kg<br>
+    <b>Facc</b> = ${f(Facc,2)} kg<br>
+    <b>Feq</b> = ${f(Feq,1)} kg<br>
+    <b>Kw</b> = ${f(Kw,4)}
+  `;
+}
+</script>
+
+</body>
+</html>
